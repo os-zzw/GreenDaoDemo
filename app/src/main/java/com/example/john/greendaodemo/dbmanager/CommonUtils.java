@@ -1,6 +1,7 @@
 package com.example.john.greendaodemo.dbmanager;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.student.entity.Student;
 
@@ -24,6 +25,7 @@ public class CommonUtils {
     public boolean insertStudent(Student student) {
         boolean flag = false;
         flag = mDaoManager.getSession().insert(student) != -1;//不等于-1是true 否则是false
+        Log.i("MainActivity", "insertStudent: "+flag);
         return flag;
     }
 
@@ -45,6 +47,7 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("MainActivity", "insertMultStudent: "+flag);
         return false;
     }
 
@@ -59,6 +62,7 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.i("MainActivity", "uoDateStudent: "+flag);
         return flag;
     }
 
@@ -73,6 +77,7 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.i("MainActivity", "deleteStudent: "+flag);
         return flag;
     }
 
@@ -87,6 +92,14 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.i("aaa", "deleteAll: "+flag);
         return flag;
+    }
+
+    /**
+     * 查询所有记录
+     */
+    public List<Student> listAll() {
+        return mDaoManager.getSession().loadAll(Student.class);
     }
 }

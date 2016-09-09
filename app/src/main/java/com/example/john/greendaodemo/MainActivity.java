@@ -33,20 +33,18 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add:
-                Log.i(TAG, "onClick: Insert Data");
                 Student student = new Student();
                 student.setName("john");
-                student.setId(1001L);
                 student.setAddress("address");
                 student.setAge(20);
                 mCommonUtils.insertStudent(student);
                 break;
             case R.id.btn_addMore:
+                Log.i(TAG, "onClick: addMore");
                 List<Student> students = new ArrayList<>();
                 for (int i = 0; i < 4; i++) {
                     Student student1 = new Student();
                     student1.setName("john");
-                    student1.setId(1001L);
                     student1.setAddress("address");
                     student1.setAge(20);
                     students.add(student1);
@@ -54,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 mCommonUtils.insertMultStudent(students);
                 break;
             case R.id.btn_delete:
+                Student student2 = new Student();
+                student2.setId(1001L);
+                mCommonUtils.deleteStudent(student2);
                 break;
             case R.id.btn_upDate:
                 Student student1 = new Student();
@@ -64,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
                 mCommonUtils.uoDateStudent(student1);
                 break;
             case R.id.btn_query:
+                List<Student> students1 = mCommonUtils.listAll();
+                for (int i = 0; i < students1.size(); i++) {
+                    Student o = students1.get(i);
+                    Log.i(TAG, "list: " + o.getId()+o.getName()+o.getAddress());
+                }
                 break;
         }
     }
