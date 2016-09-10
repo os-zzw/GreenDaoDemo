@@ -52,6 +52,11 @@
     //创建数据库的表
     private static void addStudent(Schema schema) {
         Entity entity = schema.addEntity("Student");//创建数据库的表
+        //对数据库进行重新命名
+        //entity.setTableName("tableName");
+        
+        // 与在 Java 中使用驼峰命名法不同，默认数据库中的命名是使用大写和下划线来分割单词的。         
+        // For example, a property called “creationDate” will become a database column “CREATION_DATE”.
         entity.addIdProperty();//主键 是int类型
         entity.addStringProperty("name");
         entity.addStringProperty("address");
