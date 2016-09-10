@@ -3,7 +3,10 @@ package com.example.john.greendaodemo.dbmanager;
 import android.content.Context;
 import android.util.Log;
 
+import com.student.dao.StudentDao;
 import com.student.entity.Student;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ public class CommonUtils {
     public boolean insertStudent(Student student) {
         boolean flag = false;
         flag = mDaoManager.getSession().insert(student) != -1;//不等于-1是true 否则是false
-        Log.i("MainActivity", "insertStudent: "+flag);
+        Log.i("MainActivity", "insertStudent: " + flag);
         return flag;
     }
 
@@ -47,7 +50,7 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("MainActivity", "insertMultStudent: "+flag);
+        Log.d("MainActivity", "insertMultStudent: " + flag);
         return false;
     }
 
@@ -62,7 +65,7 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("MainActivity", "uoDateStudent: "+flag);
+        Log.i("MainActivity", "uoDateStudent: " + flag);
         return flag;
     }
 
@@ -77,7 +80,7 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("MainActivity", "deleteStudent: "+flag);
+        Log.i("MainActivity", "deleteStudent: " + flag);
         return flag;
     }
 
@@ -92,14 +95,46 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("aaa", "deleteAll: "+flag);
+        Log.i("aaa", "deleteAll: " + flag);
         return flag;
     }
 
     /**
-     * 查询所有记录
+     * 查询 某一个表 的 所有记录
      */
     public List<Student> listAll() {
         return mDaoManager.getSession().loadAll(Student.class);
     }
+
+    /**
+     * 按照主键查询某一个 表 中 的单行记录
+     */
+    public Student listOneStudent(long key) {
+        return mDaoManager.getSession().load(Student.class, key);
+    }
+
+    /**
+     * 按照sql语句进行查询
+     */
+    public void queryBySql() {
+        List<Student> list = mDaoManager.getSession().queryRaw(Student.class, "where name like ? and _id<=?", new String[]{"%jo%", "4"});
+        for (Student s : list) {
+            Log.i("MainActivity", s.getId() + "");
+        }
+    }
+
+    /**
+     * 使用查询构建器进行查询
+     */
+    public void queryByBuilder() {
+        //使用查询构建器
+        QueryBuilder<Student> queryBuilder = mDaoManager.getSession().queryBuilder(Student.class);
+        //这些条件是 逻辑与
+        queryBuilder.where(StudentDao.Properties.Name.like("john"));
+        List<Student> list = queryBuilder.where(StudentDao.Properties.Id.le(4)).list();
+        for (Student s : list) {
+            Log.i("MainActivity", s.getId() + "");
+        }
+    }
+
 }
